@@ -17,7 +17,7 @@ class Pessoa:
     def calcularIMC(self):
         return (self.peso / (self.altura*self.altura))
 
-def main():
+def __main__():
     #Greets the user
     print('Calculo IMC, informe os dados abaixo:')
 
@@ -32,5 +32,3 @@ def main():
     #Uses 'Pessoa.calulcarIMC' to get person's IMC and prints
     imc = p1.calcularIMC()
     print(f"\nOlá {p1.nome}, seu IMC é {round(imc,2)}.")
-
-main()

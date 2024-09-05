@@ -3,9 +3,9 @@
 lista_pessoas = []
 lista_emails = []
 while True:
-    nome = input('Digite o nome de uma pessoa: ').upper()
+    nome = input('Digite o nome de uma pessoa: ')
     if(nome not in lista_pessoas):
-        lista_pessoas.append(nome)
+        lista_pessoas.append(nome.upper())
         lista_emails.append(nome.replace(" ", "")+"@ufn.edu.br")
 
     resp = input(f"Deseja cadastrar outra pessoa? (S/N)").upper()

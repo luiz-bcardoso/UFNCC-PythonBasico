@@ -17,7 +17,7 @@ acc = ['0000']
 # 01 = write
 # 10 = sum
 # 11 = sub
-instrucao = '00100011'  # (2bit x 4)
+instrucao = '10100011'  # (2bit x 4)
 
 
 def mostraMemoria():
@@ -44,8 +44,15 @@ def escrever(pos, dado):
     mostraMemoria()
 
 
-def soma(pos1, pos2):
-    pass
+def soma(regX, valor):
+    global acc
+    ler(regX)
+    #print('ACC(Dec)',int(acc, 2))
+    print(f'VAL: {valor}')
+    acc = f'{int(bin(int(acc, 2) + int(valor, 2))[2:])}'
+    mostraAcc()
+    #print(f'regX:{regX}, acc:{acc}')
+    escrever(regX, acc)
 
 
 def sub(pos1, pos2):
@@ -64,17 +71,20 @@ def executaInstrucao(instr):
     print(f'Decimal [{comDec} {endDec} {dadoDec}]')
 
     if comDec == 0:
+        print(f'READ register #{endDec}')
         ler(endDec)
     if comDec == 1:
+        print(f'WRITE register #{endDec} VALUE {dado}')
         escrever(endDec, dado)
     if comDec == 2:
-        soma(0,0)
+        print(f'SUM register #{endDec} VALUE {dado}')
+        mostraMemoria()
+        soma(endDec,dado)
     if comDec == 3:
         sub(0,0)
 
-
 # bin to dec
-print(int('1111', 2))
+#print(int('1111', 2))
 
 mostraMemoria()
 ler(1)

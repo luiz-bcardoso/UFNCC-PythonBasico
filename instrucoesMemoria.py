@@ -14,10 +14,10 @@ def memoriaCool():
 memoria = ['1000', '1111', '0101', '1010']
 acc = ['0000']
 # 00 = read
-# 01 = write
+# 01 = write    
 # 10 = sum
 # 11 = sub
-instrucao = '11100011'  # (2bit x 4)
+instrucao = '10101011'  # (2bit x 4)
 
 
 def mostraMemoria():
@@ -49,7 +49,13 @@ def soma(regX, valor):
     ler(regX)
     #print('ACC(Dec)',int(acc, 2))
     print(f'VAL: {valor} ({int(valor, 2)})')
-    acc = f'{int(bin(int(acc, 2) + int(valor, 2))[2:])}' #removes 2b
+    res = str(bin(int(acc, 2) + int(valor, 2))[2:])
+    #Checks for a value greater than 4 bits
+    if len(res) > 4:
+        print('RES: Buffer Overflow ')
+        res = '0000'
+    else:
+        acc = f'{res}' #removes 2b
     acc = corrigeBinario(acc)
     mostraAcc()
     #print(f'regX:{regX}, acc:{acc}')
@@ -65,12 +71,18 @@ def sub(regX, valor):
     mostraAcc()
     escrever(regX, acc)
 
+
+def mult(regX, valor):
+    #muliplica valor(regX) por valor
+    pass
+
 def corrigeBinario(acc):
     tamanhoRes = len(acc)
     if tamanhoRes < 4:
         for i in range(4-tamanhoRes):
             acc = '0'+acc
     return acc
+
 
 def executaInstrucao(instr):
     com = instr[:2]  # corta do primeiro ao 2

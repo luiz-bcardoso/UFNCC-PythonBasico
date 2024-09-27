@@ -17,7 +17,7 @@ acc = ['0000']
 # 01 = write
 # 10 = sum
 # 11 = sub
-instrucao = '10100011'  # (2bit x 4)
+instrucao = '11100011'  # (2bit x 4)
 
 
 def mostraMemoria():
@@ -29,7 +29,7 @@ def mostraMemoria():
 
 
 def mostraAcc():
-    print(f'ACC: {acc}')
+    print(f'ACC: {acc} ({int(acc, 2)})')
 
 
 def ler(pos):
@@ -48,16 +48,29 @@ def soma(regX, valor):
     global acc
     ler(regX)
     #print('ACC(Dec)',int(acc, 2))
-    print(f'VAL: {valor}')
-    acc = f'{int(bin(int(acc, 2) + int(valor, 2))[2:])}'
+    print(f'VAL: {valor} ({int(valor, 2)})')
+    acc = f'{int(bin(int(acc, 2) + int(valor, 2))[2:])}' #removes 2b
+    acc = corrigeBinario(acc)
     mostraAcc()
     #print(f'regX:{regX}, acc:{acc}')
     escrever(regX, acc)
 
 
-def sub(pos1, pos2):
-    pass
+def sub(regX, valor):
+    global acc
+    ler(regX)
+    print(f'VAL: {valor} ({int(valor, 2)})')
+    acc = f'{int(bin(int(acc, 2) - int(valor, 2))[2:])}' #removes 2b
+    acc = corrigeBinario(acc)
+    mostraAcc()
+    escrever(regX, acc)
 
+def corrigeBinario(acc):
+    tamanhoRes = len(acc)
+    if tamanhoRes < 4:
+        for i in range(4-tamanhoRes):
+            acc = '0'+acc
+    return acc
 
 def executaInstrucao(instr):
     com = instr[:2]  # corta do primeiro ao 2
@@ -81,7 +94,9 @@ def executaInstrucao(instr):
         mostraMemoria()
         soma(endDec,dado)
     if comDec == 3:
-        sub(0,0)
+        print(f'SUB register #{endDec} VALUE {dado}')
+        mostraMemoria()
+        sub(endDec,dado)
 
 # bin to dec
 #print(int('1111', 2))

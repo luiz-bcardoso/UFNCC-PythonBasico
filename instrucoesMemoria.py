@@ -17,7 +17,7 @@ acc = ['0000']
 # 01 = write    
 # 10 = sum
 # 11 = sub
-instrucao = '10101011'  # (2bit x 4)
+instrucao = '10100101'  # (2bit x 4)
 
 
 def mostraMemoria():
@@ -73,8 +73,29 @@ def sub(regX, valor):
 
 
 def mult(regX, valor):
-    #muliplica valor(regX) por valor
-    pass
+    global acc
+    res = 0
+
+    ler(regX)
+    print(f'VAL: {valor} ({int(valor, 2)})')
+
+    #Sum the same value in acc for x times 'valor'
+    for i in range(int(valor, 2)):
+        res += int(acc, 2)
+
+    #Add 'res' to 'acc'
+    acc = str(bin(res)[2:])
+    corrigeBinario(acc)
+    mostraAcc()
+
+    # Checks for a value greater than 4 bits
+    if len(acc) > 4:
+        print('RES: Buffer Overflow ')
+        acc = '0000'
+    else:
+        acc = f'{res}'
+
+    escrever(regX, acc)
 
 def corrigeBinario(acc):
     tamanhoRes = len(acc)
@@ -103,8 +124,12 @@ def executaInstrucao(instr):
         escrever(endDec, dado)
     if comDec == 2:
         print(f'SUM register #{endDec} VALUE {dado}')
+        input_value = input('Deseja multiplicar um valor por outro ao inves da soma? (Y/N): ')
         mostraMemoria()
-        soma(endDec,dado)
+        if input_value.upper() == 'Y':
+            mult(endDec, dado)
+        else:
+            soma(endDec, dado)
     if comDec == 3:
         print(f'SUB register #{endDec} VALUE {dado}')
         mostraMemoria()
